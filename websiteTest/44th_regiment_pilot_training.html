@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>44th Regiment | Army Air Corps - Pilot Training Program</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        military: {
+                            950: '#0a0d0a',
+                            900: '#111611',
+                            800: '#1a221a',
+                            700: '#263326',
+                            600: '#384d38',
+                            accent: '#c5a854', // Muted Gold
+                            olive: '#4a5d4e',
+                            hazard: '#d97706'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0a0d0a; color: #e2e8f0; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .military-grid { background-image: radial-gradient(#263326 1px, transparent 1px); background-size: 24px 24px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="military-grid min-h-screen selection:bg-military-accent selection:text-black">
+
+    <!-- Top Tactical Header / Ticker -->
+    <div class="bg-military-950 border-b border-military-700/50 text-xs font-mono py-1.5 px-4 text-military-accent flex justify-between items-center overflow-x-auto whitespace-nowrap">
+        <div class="flex items-center space-x-4">
+            <span class="flex items-center space-x-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><span>STATUS: AIR CORPS RECRUITMENT ACTIVE</span></span>
+            <span class="text-slate-500">|</span>
+            <span>THEATRE: SQUAD / SQUAD 44 TACTICAL OPERATIONS</span>
+        </div>
+        <div class="hidden md:flex space-x-6 text-slate-400">
+            <span>SECURE COMMS: DISCORD.GG/44THREGIMENT</span>
+            <span>PILOT CADRE v2.4</span>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-military-900/90 backdrop-blur-md border-b border-military-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded bg-military-800 border-2 border-military-accent flex items-center justify-center text-military-accent font-black text-xl shadow-lg">
+                    44th
+                </div>
+                <div>
+                    <span class="block font-black tracking-wider text-lg text-white">44TH REGIMENT</span>
+                    <span class="block text-xs font-mono text-military-accent uppercase tracking-widest">Army Air Corps • Flight Academy</span>
+                </div>
+            </div>
+
+            <nav class="hidden lg:flex items-center space-x-1 text-sm font-medium">
+                <a href="#overview" class="px-4 py-2 rounded hover:bg-military-800 text-slate-300 hover:text-military-accent transition">Overview</a>
+                <a href="#syllabus" class="px-4 py-2 rounded hover:bg-military-800 text-slate-300 hover:text-military-accent transition">Flight Syllabus</a>
+                <a href="#sop" class="px-4 py-2 rounded hover:bg-military-800 text-slate-300 hover:text-military-accent transition">SOPs & Guides</a>
+                <a href="#roster" class="px-4 py-2 rounded hover:bg-military-800 text-slate-300 hover:text-military-accent transition">Cadre Roster</a>
+            </nav>
+
+            <div>
+                <a href="#enlist" class="px-5 py-2.5 bg-military-accent hover:bg-yellow-600 text-black font-bold rounded text-xs uppercase tracking-wider transition shadow-lg flex items-center space-x-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    <span>Apply for Flight School</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative py-24 lg:py-32 overflow-hidden bg-gradient-to-b from-military-900 to-military-950 border-b border-military-700">
+        <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#c5a854_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded bg-military-800 border border-military-accent/30 text-military-accent text-xs font-mono uppercase tracking-widest">
+                    <span>🚁 44th Regiment Air Mobility Division</span>
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white uppercase leading-none">
+                    Master the Skies.<br><span class="text-military-accent">Deliver Victory.</span>
+                </h1>
+                <p class="text-slate-400 text-lg leading-relaxed">
+                    Welcome to the 44th Regiment Pilot Training Academy. In Squad and Squad 44, battlefield supremacy depends on precision logistics, rapid troop insertion, and steel nerves under anti-air fire. Earn your wings.
+                </p>
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="#syllabus" class="px-6 py-3 bg-military-800 hover:bg-military-700 border border-military-700 text-white font-bold rounded text-sm uppercase tracking-wider transition">
+                        View Training Syllabus
+                    </a>
+                    <a href="#enlist" class="px-6 py-3 bg-military-accent hover:bg-yellow-600 text-black font-bold rounded text-sm uppercase tracking-wider transition shadow-lg">
+                        Enlist as Cadet Pilot
+                    </a>
+                </div>
+                <div class="grid grid-cols-3 gap-4 pt-6 border-t border-military-800 font-mono text-xs text-slate-400">
+                    <div>
+                        <span class="block text-xl font-bold text-white">100%</span>
+                        <span>Tactical Focus</span>
+                    </div>
+                    <div>
+                        <span class="block text-xl font-bold text-white">UH-1 / Helis</span>
+                        <span>Platform Training</span>
+                    </div>
+                    <div>
+                        <span class="block text-xl font-bold text-white">Tier-1</span>
+                        <span>Regiment Standards</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cockpit / Tactical Graphic Card -->
+            <div class="bg-military-900 rounded-xl border border-military-700 p-6 shadow-2xl relative">
+                <div class="absolute top-4 right-4 flex space-x-2">
+                    <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+                    <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+                    <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                </div>
+                <div class="font-mono text-xs text-military-accent mb-4 uppercase tracking-widest">[HUD_TELEMETRY // FLIGHT_SIM_v4]</div>
+                <div class="space-y-4">
+                    <div class="p-4 rounded bg-military-950 border border-military-800 space-y-2">
+                        <div class="flex justify-between text-xs font-mono">
+                            <span class="text-slate-400">ALTITUDE AGL</span>
+                            <span class="text-emerald-400 font-bold">145 FT (STABLE)</span>
+                        </div>
+                        <div class="w-full bg-military-800 h-2 rounded-full overflow-hidden">
+                            <div class="bg-emerald-500 h-full w-[65%]"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-3 rounded bg-military-950 border border-military-800">
+                            <span class="text-slate-500 block text-xs font-mono">COLLECTIVE PITCH</span>
+                            <span class="text-white font-mono font-bold text-lg">78.4%</span>
+                        </div>
+                        <div class="p-3 rounded bg-military-950 border border-military-800">
+                            <span class="text-slate-500 block text-xs font-mono">HEADING</span>
+                            <span class="text-military-accent font-mono font-bold text-lg">314° NW</span>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded bg-military-950 border border-military-800 text-xs font-mono space-y-1 text-slate-300">
+                        <div class="text-military-accent font-bold">&gt;&gt; CADET BRIEFING NOTICE:</div>
+                        <p>All prospective flight candidates must complete ground school before operating transport assets in official 44th Regiment operations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview / Program Requirements -->
+    <section id="overview" class="py-20 bg-military-950 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center space-y-3">
+            <span class="text-military-accent font-mono text-xs uppercase tracking-widest">[ SECTION 01 // PROGRAM OVERVIEW ]</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold uppercase text-white">Pilot Training Requirements & Duties</h2>
+            <p class="max-w-2xl mx-auto text-slate-400 text-sm">
+                Flying for the 44th Regiment is not about solo heroics—it is about keeping our infantry supplied, reinforcing hot LZ's, and extracting wounded squads under heavy fire.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="p-6 rounded-xl bg-military-900 border border-military-700/80 space-y-4 hover:border-military-accent transition">
+                <div class="w-12 h-12 rounded bg-military-800 text-military-accent flex items-center justify-center font-bold text-xl">
+                    01
+                </div>
+                <h3 class="text-xl font-bold text-white">Prerequisites & Entry</h3>
+                <ul class="space-y-2 text-sm text-slate-400 list-disc list-inside">
+                    <li>Minimum 100 hours in Squad / Squad 44.</li>
+                    <li>Active 44th Regiment infantry membership.</li>
+                    <li>Working microphone & clear comms discipline.</li>
+                    <li>Stable framerate and high refresh rate monitor.</li>
+                </ul>
+            </div>
+
+            <div class="p-6 rounded-xl bg-military-900 border border-military-700/80 space-y-4 hover:border-military-accent transition">
+                <div class="w-12 h-12 rounded bg-military-800 text-military-accent flex items-center justify-center font-bold text-xl">
+                    02
+                </div>
+                <h3 class="text-xl font-bold text-white">Logistics & Supply Duties</h3>
+                <ul class="space-y-2 text-sm text-slate-400 list-disc list-inside">
+                    <li>Rapid FOB construction supply runs.</li>
+                    <li>Munition and building material distribution.</li>
+                    <li>Low-altitude stealth approaches to avoid radar/AA.</li>
+                    <li>Cooperation with Squad Logistics Leads.</li>
+                </ul>
+            </div>
+
+            <div class="p-6 rounded-xl bg-military-900 border border-military-700/80 space-y-4 hover:border-military-accent transition">
+                <div class="w-12 h-12 rounded bg-military-800 text-military-accent flex items-center justify-center font-bold text-xl">
+                    03
+                </div>
+                <h3 class="text-xl font-bold text-white">Combat Troop Insertion</h3>
+                <ul class="space-y-2 text-sm text-slate-400 list-disc list-inside">
+                    <li>Hot landing zone (LZ) assessment & execution.</li>
+                    <li>Quick turnaround troop deployments.</li>
+                    <li>Emergency casualty evacuation protocols.</li>
+                    <li>Air-to-ground reconnaissance reporting.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Training Syllabus Interactive Modules -->
+    <section id="syllabus" class="py-20 bg-military-900 border-t border-b border-military-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center space-y-3">
+                <span class="text-military-accent font-mono text-xs uppercase tracking-widest">[ SECTION 02 // CURRICULUM ]</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold uppercase text-white">Flight Academy Syllabus</h2>
+                <p class="max-w-2xl mx-auto text-slate-400 text-sm">
+                    Select a module below to review the standardized flight instruction criteria required for graduation.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Syllabus Navigation Tabs -->
+                <div class="space-y-2 lg:col-span-1">
+                    <button onclick="switchSyllabus(event, 'mod-1')" class="syllabus-btn w-full text-left p-4 rounded bg-military-800 border border-military-700 text-white font-bold text-sm uppercase flex justify-between items-center transition hover:border-military-accent active-tab">
+                        <span>1. Basic Controls</span>
+                        <span class="text-military-accent font-mono">01</span>
+                    </button>
+                    <button onclick="switchSyllabus(event, 'mod-2')" class="syllabus-btn w-full text-left p-4 rounded bg-military-950 border border-military-800 text-slate-400 font-bold text-sm uppercase flex justify-between items-center transition hover:bg-military-800 hover:text-white">
+                        <span>2. Landing & Terrain</span>
+                        <span class="text-military-accent font-mono">02</span>
+                    </button>
+                    <button onclick="switchSyllabus(event, 'mod-3')" class="syllabus-btn w-full text-left p-4 rounded bg-military-950 border border-military-800 text-slate-400 font-bold text-sm uppercase flex justify-between items-center transition hover:bg-military-800 hover:text-white">
+                        <span>3. Logistics & Drops</span>
+                        <span class="text-military-accent font-mono">03</span>
+                    </button>
+                    <button onclick="switchSyllabus(event, 'mod-4')" class="syllabus-btn w-full text-left p-4 rounded bg-military-950 border border-military-800 text-slate-400 font-bold text-sm uppercase flex justify-between items-center transition hover:bg-military-800 hover:text-white">
+                        <span>4. Combat Comms</span>
+                        <span class="text-military-accent font-mono">04</span>
+                    </button>
+                </div>
+
+                <!-- Syllabus Content Box -->
+                <div class="lg:col-span-3 bg-military-950 rounded-xl border border-military-700 p-8">
+                    <!-- Module 1 -->
+                    <div id="mod-1" class="syllabus-content space-y-6">
+                        <div class="flex justify-between items-center border-b border-military-800 pb-4">
+                            <h3 class="text-2xl font-bold text-white">Module 01: Basic Flight Controls & Physics</h3>
+                            <span class="text-xs font-mono px-3 py-1 rounded bg-military-800 text-military-accent">GROUND SCHOOL</span>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed text-sm">
+                            Understanding rotor lift, collective pitch, cyclic management, and tail rotor compensation in Squad's unique physics engine. Cadets will learn how to maintain hover stability and execute smooth transitional lifts.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="p-4 rounded bg-military-900 border border-military-800 space-y-2">
+                                <strong class="text-military-accent block">Key Learning Objectives:</strong>
+                                <ul class="list-disc list-inside text-slate-400 space-y-1">
+                                    <li>Throttle / Collective response curves</li>
+                                    <li>Translational lift and effective vortex ring state awareness</li>
+                                    <li>Trimming and rudder control coordination</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 rounded bg-military-900 border border-military-800 space-y-2">
+                                <strong class="text-military-accent block">Practical Examination:</strong>
+                                <p class="text-slate-400">Maintain a stable 50ft hover for 3 minutes without drifting more than 5 meters in any horizontal direction.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 2 -->
+                    <div id="mod-2" class="syllabus-content space-y-6 hidden">
+                        <div class="flex justify-between items-center border-b border-military-800 pb-4">
+                            <h3 class="text-2xl font-bold text-white">Module 02: Precision Landing & Terrain Navigation</h3>
+                            <span class="text-xs font-mono px-3 py-1 rounded bg-military-800 text-military-accent">ADVANCED HANDLING</span>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed text-sm">
+                            Real combat zones rarely have paved runways. Pilots must master touch downs on uneven forest floors, rooftops, hillsides, and tight forest clearings under time constraints.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="p-4 rounded bg-military-900 border border-military-800 space-y-2">
+                                <strong class="text-military-accent block">Key Learning Objectives:</strong>
+                                <ul class="list-disc list-inside text-slate-400 space-y-1">
+                                    <li>Steep autorotation and sliding touch-downs</li>
+                                    <li>Contour flying utilizing tree lines and hills</li>
+                                    <li>Avoiding power lines, radio towers, and urban obstacles</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 rounded bg-military-900 border border-military-800 space-y-2">
+                                <strong class="text-military-accent block">Practical Examination:</strong>
+                                <p class="text-slate-400">Land the transport helicopter on a designated mountain ridge helipad within 45 seconds of takeoff.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 3 -->
+                    <div id="mod-3" class="syllabus-content space-y-6 hidden">
+                        <div class="flex justify-between items-center border-b border-military-800 pb-4">
+                            <h3 class="text-2xl font-bold text-white">Module 03: Troop Transport & Logistics Drops</h3>
+                            <span class="text-xs font-mono px-3 py-1 rounded bg-military-800 text-military-accent">LOGISTICS CORPS</span>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed text-sm">
+                            Logistics wins wars. This module trains pilots in maximum payload management, fuel burn calculation, and hot-dropping squads directly onto active frontlines without shutting down rotors.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="p-4 rounded bg-military-900 border border-military-800 space-y-2">
+                                <strong class="text-military-accent block">Key Learning Objectives:</strong>
+                                <ul class="list-disc list-inside text-slate-400 space-y-1">
+                                    <li>Supply crate unloads and FOB supply loops</li>
+                                    <li>Hot LZ rapid disembarkation choreography</li>
+                                    <li>Emergency troop extraction under small-arms fire</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 rounded bg-military-900 border border-military-800 space-y-2">
+                                <strong class="text-military-accent block">Practical Examination:</strong>
+                                <p class="text-slate-400">Deliver 3,000 supplies and 8 infantry troops to a contested FOB under simulated mortar fire.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 4 -->
+                    <div id="mod-4" class="syllabus-content space-y-6 hidden">
+                        <div class="flex justify-between items-center border-b border-military-800 pb-4">
+                            <h3 class="text-2xl font-bold text-white">Module 04: Situational Awareness & Communications</h3>
+                            <span class="text-xs font-mono px-3 py-1 rounded bg-military-800 text-military-accent">COMMAND & CONTROL</span>
+                        </div>
+                        <p class="text-slate-300 leading-relaxed text-sm">
+                            Pilots serve as the eyes in the sky. Effective radio discipline, communicating grid coordinates, calling out enemy armor positions, and coordinating with Squad Leaders (SLs) is paramount.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="p-4 rounded bg-military-900 border border-military-800 space-y-2">
+                                <strong class="text-military-accent block">Key Learning Objectives:</strong>
+                                <ul class="list-disc list-inside text-slate-400 space-y-1">
+                                    <li>Command channel radio etiquette and brevity codes</li>
+                                    <li>Map reading and compass bearing callouts</li>
+                                    <li>Threat evasion against enemy anti-air assets</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 rounded bg-military-900 border border-military-800 space-y-2">
+                                <strong class="text-military-accent block">Practical Examination:</strong>
+                                <p class="text-slate-400">Conduct a reconnaissance sweep, report 3 concealed enemy positions within 90 seconds, and return safely.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Standard Operating Procedures (SOPs) -->
+    <section id="sop" class="py-20 bg-military-950 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center space-y-3">
+            <span class="text-military-accent font-mono text-xs uppercase tracking-widest">[ SECTION 03 // DIRECTIVES ]</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold uppercase text-white">Standard Operating Procedures (SOPs)</h2>
+            <p class="max-w-2xl mx-auto text-slate-400 text-sm">
+                Strict adherence to 44th Regiment flight rules ensures asset preservation and maximum team efficiency on deployment day.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="p-6 rounded-xl bg-military-900 border border-military-700 space-y-3">
+                <div class="font-mono text-xs text-military-accent">SOP_01 // CLAIMING</div>
+                <h4 class="text-lg font-bold text-white">Asset Claiming & Squad Creation</h4>
+                <p class="text-sm text-slate-400">
+                    Pilots must name their Squad explicitly as <code class="text-xs bg-military-950 px-1.5 py-0.5 rounded text-military-accent">44th Air Corps - Transport</code> and lock squad size to prevent random infantry spawns.
+                </p>
+            </div>
+
+            <div class="p-6 rounded-xl bg-military-900 border border-military-700 space-y-3">
+                <div class="font-mono text-xs text-military-accent">SOP_02 // CRASH RECOVERY</div>
+                <h4 class="text-lg font-bold text-white">Crash & Timer Penalties</h4>
+                <p class="text-sm text-slate-400">
+                    Loss of a helicopter due to pilot negligence or reckless hot-dropping results in a mandatory 15-minute grounding penalty and review by the Flight Instructor.
+                </p>
+            </div>
+
+            <div class="p-6 rounded-xl bg-military-900 border border-military-700 space-y-3">
+                <div class="font-mono text-xs text-military-accent">SOP_03 // PRIORITY LZ</div>
+                <h4 class="text-lg font-bold text-white">LZ Safety Hierarchy</h4>
+                <p class="text-sm text-slate-400">
+                    If an LZ is marked hot by ground Squad Leaders, transport pilots must divert to a secondary LZ 300m out unless an emergency medical extraction has been authorized.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enlistment Form Mockup Section -->
+    <section id="enlist" class="py-20 bg-military-900 border-t border-military-700">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center space-y-3">
+                <span class="text-military-accent font-mono text-xs uppercase tracking-widest">[ SECTION 04 // RECRUITMENT ]</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold uppercase text-white">Cadet Flight Application</h2>
+                <p class="max-w-xl mx-auto text-slate-400 text-sm">
+                    Submit your application to enter the 44th Regiment Flight Academy. Our Chief Flight Instructors will review your dossier and invite you for a check-ride.
+                </p>
+            </div>
+
+            <div class="bg-military-950 rounded-2xl border border-military-700 p-8 shadow-2xl">
+                <form onsubmit="event.preventDefault(); showEnlistModal();" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-mono text-slate-300 uppercase">Recruit In-Game Name / Discord Tag *</label>
+                            <input type="text" required placeholder="e.g., PVT. Maverick #44" class="w-full px-4 py-3 rounded bg-military-900 border border-military-700 text-white focus:outline-none focus:border-military-accent text-sm">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-xs font-mono text-slate-300 uppercase">Steam ID64 or Profile Link *</label>
+                            <input type="text" required placeholder="https://steamcommunity.com/id/..." class="w-full px-4 py-3 rounded bg-military-900 border border-military-700 text-white focus:outline-none focus:border-military-accent text-sm">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-mono text-slate-300 uppercase">Total Squad / Squad 44 Playtime *</label>
+                            <select class="w-full px-4 py-3 rounded bg-military-900 border border-military-700 text-white focus:outline-none focus:border-military-accent text-sm">
+                                <option>100 - 300 Hours</option>
+                                <option>300 - 600 Hours</option>
+                                <option>600 - 1000+ Hours</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-xs font-mono text-slate-300 uppercase">Primary Flight Experience</label>
+                            <select class="w-full px-4 py-3 rounded bg-military-900 border border-military-700 text-white focus:outline-none focus:border-military-accent text-sm">
+                                <option>Squad Transport Helicopter (Experienced)</option>
+                                <option>Squad Transport Helicopter (Beginner)</option>
+                                <option>Flight Sims (DCS, MSFS, ARMA)</option>
+                                <option>None / Willing to Learn</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-xs font-mono text-slate-300 uppercase">Why do you wish to join the 44th Air Corps? *</label>
+                        <textarea rows="4" required placeholder="Briefly describe your tactical goals and commitment..." class="w-full px-4 py-3 rounded bg-military-900 border border-military-700 text-white focus:outline-none focus:border-military-accent text-sm"></textarea>
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" required id="terms" class="rounded accent-military-accent w-4 h-4">
+                        <label for="terms" class="text-xs text-slate-400">I confirm that I am an active member of the 44th Regiment or willing to complete basic infantry evaluation first.</label>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-military-accent hover:bg-yellow-600 text-black font-bold uppercase tracking-wider rounded transition shadow-lg text-sm">
+                        Submit Flight Cadet Application
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal Notification -->
+    <div id="enlistModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+        <div class="bg-military-900 border border-military-700 p-8 rounded-2xl max-w-md w-full mx-4 space-y-4 text-center shadow-2xl">
+            <div class="w-16 h-16 bg-military-800 text-military-accent rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
+                ✓
+            </div>
+            <h3 class="text-2xl font-bold text-white uppercase">Application Transmitted</h3>
+            <p class="text-sm text-slate-400">
+                Your dossier has been routed to the 44th Regiment Flight Academy Chief Instructors. Check our Discord for interview scheduling.
+            </p>
+            <button onclick="document.getElementById('enlistModal').classList.add('hidden')" class="px-6 py-2.5 bg-military-accent text-black font-bold text-xs uppercase tracking-wider rounded">
+                Acknowledge & Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-military-950 border-t border-military-700/80 py-12 text-center text-xs text-slate-500 space-y-4">
+        <div class="flex justify-center space-x-6">
+            <a href="#" class="hover:text-military-accent transition">Discord Server</a>
+            <a href="#" class="hover:text-military-accent transition">Regiment Rules</a>
+            <a href="#" class="hover:text-military-accent transition">Squad 44 Community</a>
+        </div>
+        <p>44th Regiment is an independent tactical gaming community for Squad and Squad 44. Not officially affiliated with Offworld Industries.</p>
+    </footer>
+
+    <!-- Interactive JavaScript Handlers -->
+    <script>
+        function switchSyllabus(event, contentId) {
+            // Hide all syllabus contents
+            const contents = document.querySelectorAll('.syllabus-content');
+            contents.forEach(el => el.classList.add('hidden'));
+
+            // Show selected content
+            document.getElementById(contentId).classList.remove('hidden');
+
+            // Reset all tab buttons
+            const buttons = document.querySelectorAll('.syllabus-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-military-800', 'border-military-700', 'text-white');
+                btn.classList.add('bg-military-950', 'border-military-800', 'text-slate-400');
+            });
+
+            // Activate clicked button
+            const clickedBtn = event.currentTarget;
+            clickedBtn.classList.remove('bg-military-950', 'border-military-800', 'text-slate-400');
+            clickedBtn.classList.add('bg-military-800', 'border-military-700', 'text-white');
+        }
+
+        function showEnlistModal() {
+            document.getElementById('enlistModal').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

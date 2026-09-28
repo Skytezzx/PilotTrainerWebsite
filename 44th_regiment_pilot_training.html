@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>44th Regiment | Live Flight Training Quiz</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        military: {
+                            950: '#0a0d0a',
+                            900: '#111611',
+                            800: '#1a221a',
+                            700: '#263326',
+                            600: '#384d38',
+                            accent: '#c5a854', // Muted Gold
+                            olive: '#4a5d4e',
+                            hazard: '#d97706'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0a0d0a; color: #e2e8f0; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .military-grid { background-image: radial-gradient(#263326 1px, transparent 1px); background-size: 24px 24px; }
+    </style>
+</head>
+<body class="military-grid min-h-screen selection:bg-military-accent selection:text-black flex flex-col justify-between">
+
+    <!-- Top Tactical Header -->
+    <header class="bg-military-950 border-b border-military-700/50 text-xs font-mono py-2 px-6 text-military-accent flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded bg-military-800 border border-military-accent flex items-center justify-center text-military-accent font-bold">44</div>
+            <div>
+                <span class="font-bold text-white tracking-wider">44TH REGIMENT</span>
+                <span class="text-xs text-slate-400 ml-2">// LIVE FLIGHT ACADEMY QUIZ</span>
+            </div>
+        </div>
+        <div id="connection-status" class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse" id="status-dot"></span>
+            <span id="status-text" class="text-slate-400">CONNECTING TO SECURE RELAY...</span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 flex flex-col justify-center">
+
+        <!-- VIEW 1: HOME / ROLE SELECTION -->
+        <div id="view-home" class="space-y-8 text-center max-w-2xl mx-auto">
+            <div class="space-y-3">
+                <span class="text-xs font-mono uppercase tracking-widest text-military-accent bg-military-900 px-3 py-1 rounded border border-military-700">[ INTERACTIVE TRAINING MODULE ]</span>
+                <h1 class="text-4xl sm:text-5xl font-black uppercase tracking-tight text-white">Flight Academy Live Quiz</h1>
+                <p class="text-slate-400 text-sm">
+                    Test your knowledge on Squad helicopter physics, landing zones, and pilot SOPs in a live multiplayer Kahoot-style room.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
+                <!-- Trainer / Host Card -->
+                <div class="bg-military-900 border border-military-700 hover:border-military-accent p-6 rounded-2xl space-y-4 text-left transition shadow-xl flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded bg-military-800 text-military-accent flex items-center justify-center font-bold text-xl">
+                            🎓
+                        </div>
+                        <h3 class="text-xl font-bold text-white uppercase">I am a Trainer (Host)</h3>
+                        <p class="text-xs text-slate-400">
+                            Create a live quiz room, project questions on screen, control pacing, and monitor cadet performance in real-time.
+                        </p>
+                    </div>
+                    <button onclick="app.host.createRoom()" class="w-full py-3 bg-military-accent hover:bg-yellow-600 text-black font-bold uppercase tracking-wider text-xs rounded transition shadow">
+                        Host New Quiz Room
+                    </button>
+                </div>
+
+                <!-- Trainee / Participant Card -->
+                <div class="bg-military-900 border border-military-700 hover:border-military-accent p-6 rounded-2xl space-y-4 text-left transition shadow-xl flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 rounded bg-military-800 text-military-accent flex items-center justify-center font-bold text-xl">
+                            🚁
+                        </div>
+                        <h3 class="text-xl font-bold text-white uppercase">I am a Trainee (Cadet)</h3>
+                        <p class="text-xs text-slate-400">
+                            Enter the unique room code provided by your flight instructor, pick your callsign, and answer questions live.
+                        </p>
+                    </div>
+                    <button onclick="app.ui.showJoinScreen()" class="w-full py-3 bg-military-800 hover:bg-military-700 text-white border border-military-700 font-bold uppercase tracking-wider text-xs rounded transition shadow">
+                        Join Training Room
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: JOIN ROOM INPUT -->
+        <div id="view-join" class="space-y-6 max-w-md mx-auto hidden w-full bg-military-900 p-8 rounded-2xl border border-military-700 shadow-2xl">
+            <div class="text-center space-y-2">
+                <span class="text-xs font-mono text-military-accent uppercase tracking-widest">[ CADET AUTHENTICATION ]</span>
+                <h2 class="text-2xl font-bold uppercase text-white">Join Training Room</h2>
+            </div>
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <label class="block text-xs font-mono text-slate-300 uppercase">Room Code (e.g., 44TH-A1)</label>
+                    <input type="text" id="input-room-code" placeholder="ENTER 6-CHAR CODE" class="w-full px-4 py-3 rounded bg-military-950 border border-military-700 text-white font-mono uppercase focus:outline-none focus:border-military-accent text-center text-lg tracking-widest">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-xs font-mono text-slate-300 uppercase">Cadet Callsign / Nickname</label>
+                    <input type="text" id="input-nickname" placeholder="e.g., PVT Maverick" class="w-full px-4 py-3 rounded bg-military-950 border border-military-700 text-white focus:outline-none focus:border-military-accent text-sm">
+                </div>
+                <button onclick="app.cadet.joinRoom()" class="w-full py-3 bg-military-accent hover:bg-yellow-600 text-black font-bold uppercase tracking-wider text-xs rounded transition shadow">
+                    Connect to Briefing Room
+                </button>
+                <button onclick="app.ui.showHome()" class="w-full py-2 text-xs text-slate-400 hover:text-white transition">
+                    &larr; Back to Menu
+                </button>
+            </div>
+        </div>
+
+        <!-- VIEW 3: HOST LOBBY (WAITING FOR CADETS) -->
+        <div id="view-host-lobby" class="space-y-8 hidden max-w-3xl mx-auto w-full">
+            <div class="bg-military-900 border border-military-700 p-8 rounded-2xl shadow-2xl space-y-6 text-center">
+                <div class="space-y-2">
+                    <span class="text-xs font-mono text-military-accent uppercase tracking-widest">[ COMMAND HOST PANEL ]</span>
+                    <h2 class="text-3xl font-black uppercase text-white">Room Lobby Active</h2>
+                    <p class="text-sm text-slate-400">Share this Room Code with your trainees in Discord or voice chat:</p>
+                </div>
+                <div class="inline-block bg-military-950 border-2 border-military-accent px-8 py-4 rounded-xl">
+                    <span id="display-room-code" class="text-4xl font-mono font-black tracking-widest text-military-accent">----</span>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="text-xs font-mono uppercase text-slate-400 tracking-wider">Connected Cadets in Briefing Room (<span id="cadet-count">0</span>)</h4>
+                    <div id="host-cadets-list" class="flex flex-wrap justify-center gap-2 min-h-[60px] p-4 bg-military-950 rounded-xl border border-military-800">
+                        <span class="text-slate-500 text-sm italic self-center">Waiting for cadets to connect...</span>
+                    </div>
+                </div>
+                <div class="flex justify-center space-x-4 pt-4">
+                    <button onclick="app.host.startQuiz()" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-wider text-xs rounded transition shadow-lg flex items-center space-x-2">
+                        <span>🚀 Start Live Quiz Now</span>
+                    </button>
+                    <button onclick="app.host.endRoom()" class="px-6 py-3.5 bg-red-900/60 hover:bg-red-900 text-white font-bold uppercase tracking-wider text-xs rounded transition">
+                        Abort Room
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 4: CADET WAITING LOBBY -->
+        <div id="view-cadet-lobby" class="space-y-6 hidden max-w-md mx-auto w-full bg-military-900 p-8 rounded-2xl border border-military-700 text-center shadow-2xl">
+            <div class="w-16 h-16 rounded-full bg-military-800 text-military-accent flex items-center justify-center mx-auto text-2xl font-bold animate-pulse">
+                ⏳
+            </div>
+            <div class="space-y-2">
+                <span class="text-xs font-mono text-military-accent uppercase tracking-widest">[ BRIEFING ROOM ]</span>
+                <h2 class="text-2xl font-bold uppercase text-white">Connected, Cadet!</h2>
+                <p class="text-sm text-slate-400">You are in the briefing room. Please wait for Flight Instructor to start the quiz.</p>
+            </div>
+            <div class="p-4 bg-military-950 rounded-xl border border-military-800 font-mono text-xs text-slate-300">
+                CALLSIGN: <span id="cadet-display-name" class="text-military-accent font-bold">---</span>
+            </div>
+        </div>
+
+        <!-- VIEW 5: ACTIVE QUESTION (SHARED FOR HOST & CADET) -->
+        <div id="view-question" class="space-y-6 hidden max-w-4xl mx-auto w-full">
+            <!-- Top Quiz HUD -->
+            <div class="flex justify-between items-center bg-military-900 border border-military-700 px-6 py-3 rounded-xl">
+                <div class="font-mono text-xs text-slate-400">
+                    QUESTION <span id="q-current-num" class="text-white font-bold">1</span> / <span id="q-total-num">5</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></span>
+                    <span class="font-mono font-bold text-lg text-white" id="timer-display">20</span>s
+                </div>
+                <div class="font-mono text-xs text-military-accent" id="role-indicator-badge">
+                    HOST VIEW
+                </div>
+            </div>
+
+            <!-- Question Box -->
+            <div class="bg-military-900 border border-military-700 p-8 rounded-2xl shadow-2xl space-y-6 text-center">
+                <h3 id="question-text" class="text-2xl sm:text-3xl font-extrabold text-white leading-snug">
+                    Loading Question...
+                </h3>
+
+                <!-- Answer Grid -->
+                <div id="options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Host Live Answers Tracker (Only visible for host) -->
+            <div id="host-live-stats" class="bg-military-900 border border-military-700 p-6 rounded-2xl space-y-3 hidden">
+                <h4 class="text-xs font-mono uppercase tracking-widest text-military-accent">[ HOST MONITOR // LIVE CADET RESPONSES ]</h4>
+                <div id="host-answered-list" class="flex flex-wrap gap-2">
+                    <span class="text-xs text-slate-500 italic">Waiting for answers...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 6: QUESTION LEADERBOARD / RESULTS -->
+        <div id="view-leaderboard" class="space-y-6 hidden max-w-3xl mx-auto w-full">
+            <div class="bg-military-900 border border-military-700 p-8 rounded-2xl shadow-2xl space-y-6 text-center">
+                <div class="space-y-2">
+                    <span class="text-xs font-mono text-military-accent uppercase tracking-widest">[ STANDINGS ]</span>
+                    <h2 class="text-3xl font-black uppercase text-white" id="lb-title">Question Results</h2>
+                    <p id="lb-subtitle" class="text-sm text-slate-400">Correct Answer: <span class="text-emerald-400 font-bold" id="correct-answer-text">---</span></p>
+                </div>
+
+                <div class="space-y-2 text-left">
+                    <h4 class="text-xs font-mono uppercase text-slate-400 tracking-wider">Live Cadet Leaderboard</h4>
+                    <div id="leaderboard-list" class="space-y-2 max-h-64 overflow-y-auto pr-2">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <div id="host-next-btn-container" class="pt-4 hidden">
+                    <button onclick="app.host.nextQuestion()" class="px-8 py-3.5 bg-military-accent hover:bg-yellow-600 text-black font-bold uppercase tracking-wider text-xs rounded transition shadow-lg">
+                        Next Question &rarr;
+                    </button>
+                </div>
+                <div id="cadet-wait-next-msg" class="text-xs font-mono text-slate-400 italic">
+                    Waiting for Flight Instructor to advance to the next briefing question...
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-military-950 border-t border-military-700/50 py-6 text-center text-xs text-slate-500 font-mono">
+        44th Regiment Flight Academy • Squad & Squad 44 Tactical Training
+    </footer>
+
+    <!-- Firebase SDK Imports -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-44th-quiz';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "mock", projectId: "mock" };
+
+        let appInstance, db, auth, currentUser;
+        let currentRoomId = null;
+        let isHost = false;
+        let localPlayerId = 'cadet_' + Math.random().toString(36.substring(2, 8));
+        let localNickname = '';
+        let unsubscribeRoom = null;
+        let timerInterval = null;
+
+        // Predefined 44th Regiment Pilot Training Questions
+        const QUIZ_QUESTIONS = [
+            {
+                question: "What is the primary danger of entering Vortex Ring State (VRS) in a transport helicopter?",
+                options: ["Loss of tail rotor authority", "Rapid uncommanded sink rate in vertical descent", "Engine overheating at high altitudes", "Compass calibration failure"],
+                correct: 1
+            },
+            {
+                question: "When approaching a contested LZ under heavy enemy fire, what is the mandatory pilot SOP?",
+                options: ["Hover stationary at 200ft for spotting", "Low-contour flight, rapid touch-down and immediate troop drop", "Shut down engines to silence rotors", "Land 2 kilometers away and walk"],
+                correct: 1
+            },
+            {
+                question: "In Squad helicopter physics, what does collective pitch control primarily manage?",
+                options: ["Main rotor blade angle of attack and lift", "Helicopter yaw direction", "Forward ground speed", "Radio frequency selection"],
+                correct: 0
+            },
+            {
+                question: "What squad channel is strictly reserved for pilot-to-Squad-Leader communications?",
+                options: ["Direct Local VoIP (V)", "Command Channel (Numpad)", "Squad Channel (C)", "Global Server Chat (Y)"],
+                correct: 1
+            },
+            {
+                question: "How many supply crates can a standard Squad transport helicopter (e.g., UH-1) carry per trip?",
+                options: ["1 Crate", "2 Crates", "4 Crates", "Unlimited Crates"],
+                correct: 1
+            }
+        ];
+
+        async function initFirebase() {
+            try {
+                appInstance = initializeApp(firebaseConfig);
+                db = getFirestore(appInstance);
+                auth = getAuth(appInstance);
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                currentUser = auth.currentUser;
+                document.getElementById('status-dot').className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
+                document.getElementById('status-text').innerText = "SECURE RELAY ONLINE";
+            } catch (err) {
+                console.error("Firebase init error:", err);
+                document.getElementById('status-text').innerText = "OFFLINE MODE (LOCAL SIM)";
+            }
+        }
+
+        // UI View Switcher Helper
+        function showView(viewId) {
+            const views = ['view-home', 'view-join', 'view-host-lobby', 'view-cadet-lobby', 'view-question', 'view-leaderboard'];
+            views.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
+        }
+
+        // Host Controller
+        const host = {
+            async createRoom() {
+                const roomCode = '44TH-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+                currentRoomId = roomCode;
+                isHost = true;
+
+                const roomData = {
+                    roomCode: roomCode,
+                    state: 'lobby', // lobby, question, leaderboard, ended
+                    currentQuestionIndex: 0,
+                    questionState: 'active', // active, finished
+                    cadets: {},
+                    answers: {},
+                    createdAt: Date.now()
+                };
+
+                try {
+                    const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'quiz_rooms_' + roomCode);
+                    await setDoc(roomRef, roomData);
+                } catch (e) {
+                    console.log("Firestore write simulated or offline");
+                }
+
+                document.getElementById('display-room-code').innerText = roomCode;
+                showView('view-host-lobby');
+                host.listenToRoom();
+            },
+
+            listenToRoom() {
+                if (!currentRoomId) return;
+                const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'quiz_rooms_' + currentRoomId);
+                unsubscribeRoom = onSnapshot(roomRef, (docSnap) => {
+                    if (!docSnap.exists()) return;
+                    const data = docSnap.data();
+                    host.updateLobbyUI(data);
+                }, (err) => console.error(err));
+            },
+
+            updateLobbyUI(data) {
+                const cadets = data.cadets || {};
+                const listEl = document.getElementById('host-cadets-list');
+                const countEl = document.getElementById('cadet-count');
+                const keys = Object.keys(cadets);
+
+                countEl.innerText = keys.length;
+                if (keys.length === 0) {
+                    listEl.innerHTML = '<span class="text-slate-500 text-sm italic self-center">Waiting for cadets to connect...</span>';
+                } else {
+                    listEl.innerHTML = keys.map(k => `<span class="px-3 py-1 bg-military-900 border border-military-700 rounded text-xs font-mono text-military-accent font-bold">${cadets[k].nickname}</span>`).join('');
+                }
+
+                // If in question state, monitor responses
+                if (data.state === 'question') {
+                    const answers = data.answers || {};
+                    const answeredCount = Object.keys(answers).length;
+                    const ansListEl = document.getElementById('host-answered-list');
+                    ansListEl.innerHTML = keys.length === 0 ? '<span class="text-xs text-slate-500 italic">No cadets connected</span>' :
+                        keys.map(k => {
+                            const hasAnswered = answers[k] !== undefined;
+                            const cadetName = cadets[k].nickname;
+                            return `<span class="px-2 py-1 rounded text-xs font-mono ${hasAnswered ? 'bg-emerald-900/60 border border-emerald-700 text-emerald-300' : 'bg-military-950 border border-military-800 text-slate-500'}">${cadetName} ${hasAnswered ? '✓' : '...'}</span>`;
+                        }).join('');
+
+                    // If all answered or time ran out, auto switch to leaderboard if host
+                    if (isHost && answeredCount === keys.length && keys.length > 0 && data.questionState === 'active') {
+                        // All answered
+                        host.showLeaderboard(data);
+                    }
+                }
+            },
+
+            async startQuiz() {
+                if (!currentRoomId) return;
+                const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'quiz_rooms_' + currentRoomId);
+                await updateDoc(roomRef, {
+                    state: 'question',
+                    currentQuestionIndex: 0,
+                    questionState: 'active',
+                    answers: {}
+                });
+                renderActiveQuestion(0);
+            },
+
+            async nextQuestion() {
+                if (!currentRoomId) return;
+                const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'quiz_rooms_' + currentRoomId);
+                // fetch current index
+                const docSnap = await getDoc(roomRef);
+                if (!docSnap.exists()) return;
+                const data = docSnap.data();
+                const nextIdx = (data.currentQuestionIndex || 0) + 1;
+
+                if (nextIdx >= QUIZ_QUESTIONS.length) {
+                    alertBox("Quiz Completed! Final Leaderboard displayed.");
+                    return;
+                }
+
+                await updateDoc(roomRef, {
+                    state: 'question',
+                    currentQuestionIndex: nextIdx,
+                    questionState: 'active',
+                    answers: {}
+                });
+                renderActiveQuestion(nextIdx);
+            },
+
+            async showLeaderboard(data) {
+                const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'quiz_rooms_' + currentRoomId);
+                await updateDoc(roomRef, { state: 'leaderboard', questionState: 'finished' });
+            },
+
+            async endRoom() {
+                if (unsubscribeRoom) unsubscribeRoom();
+                currentRoomId = null;
+                isHost = false;
+                showView('view-home');
+            }
+        };
+
+        // Cadet Controller
+        const cadet = {
+            async joinRoom() {
+                const codeInput = document.getElementById('input-room-code').value.trim().toUpperCase();
+                const nickInput = document.getElementById('input-nickname').value.trim();
+
+                if (!codeInput || !nickInput) {
+                    alertBox("Please enter both Room Code and your Callsign.");
+                    return;
+                }
+
+                currentRoomId = codeInput;
+                localNickname = nickInput;
+                isHost = false;
+
+                const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'quiz_rooms_' + currentRoomId);
+                const roomSnap = await getDoc(roomRef);
+
+                if (!roomSnap.exists()) {
+                    alertBox("Room code not found. Please check with your trainer.");
+                    return;
+                }
+
+                // Register cadet in room
+                const roomData = roomSnap.data();
+                const cadets = roomData.cadets || {};
+                cadets[localPlayerId] = { nickname: localNickname, score: 0 };
+                await updateDoc(roomRef, { cadets: cadets });
+
+                document.getElementById('cadet-display-name').innerText = localNickname;
+                showView('view-cadet-lobby');
+                cadet.listenToRoom();
+            },
+
+            listenToRoom() {
+                if (!currentRoomId) return;
+                const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'quiz_rooms_' + currentRoomId);
+                unsubscribeRoom = onSnapshot(roomRef, (docSnap) => {
+                    if (!docSnap.exists()) return;
+                    const data = docSnap.data();
+
+                    // State router for cadet
+                    if (data.state === 'lobby') {
+                        showView('view-cadet-lobby');
+                    } else if (data.state === 'question') {
+                        renderActiveQuestion(data.currentQuestionIndex);
+                    } else if (data.state === 'leaderboard') {
+                        renderLeaderboardView(data);
+                    }
+                }, (err) => console.error(err));
+            },
+
+            async submitAnswer(optionIndex) {
+                if (!currentRoomId) return;
+                const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'quiz_rooms_' + currentRoomId);
+                const roomSnap = await getDoc(roomRef);
+                if (!roomSnap.exists()) return;
+                const data = roomSnap.data();
+                const qIdx = data.currentQuestionIndex;
+                const q = QUIZ_QUESTIONS[qIdx];
+
+                const answers = data.answers || {};
+                if (answers[localPlayerId] !== undefined) return; // already answered
+
+                const isCorrect = optionIndex === q.correct;
+                const points = isCorrect ? 1000 : 0;
+
+                answers[localPlayerId] = { answer: optionIndex, correct: isCorrect, points: points };
+
+                // Update score if correct
+                const cadets = data.cadets || {};
+                if (cadets[localPlayerId]) {
+                    cadets[localPlayerId].score = (cadets[localPlayerId].score || 0) + points;
+                }
+
+                await updateDoc(roomRef, { answers: answers, cadets: cadets });
+
+                // Highlight chosen option locally
+                const buttons = document.querySelectorAll('.option-btn');
+                buttons.forEach((btn, idx) => {
+                    btn.disabled = true;
+                    if (idx === optionIndex) {
+                        btn.classList.add(isCorrect ? 'bg-emerald-600/90 border-emerald-400' : 'bg-red-600/90 border-red-400');
+                    } else {
+                        btn.classList.add('opacity-50');
+                    }
+                });
+            }
+        };
+
+        // Render Question UI
+        function renderActiveQuestion(qIndex) {
+            showView('view-question');
+            const q = QUIZ_QUESTIONS[qIndex];
+            document.getElementById('q-current-num').innerText = qIndex + 1;
+            document.getElementById('q-total-num').innerText = QUIZ_QUESTIONS.length;
+            document.getElementById('question-text').innerText = q.question;
+
+            const badge = document.getElementById('role-indicator-badge');
+            const statsBox = document.getElementById('host-live-stats');
+            if (isHost) {
+                badge.innerText = "HOST COMMAND VIEW";
+                statsBox.classList.remove('hidden');
+            } else {
+                badge.innerText = "CADET ANSWER VIEW";
+                statsBox.classList.add('hidden');
+            }
+
+            const grid = document.getElementById('options-grid');
+            const colors = ['bg-blue-900/40 border-blue-700 hover:bg-blue-800', 'bg-amber-900/40 border-amber-700 hover:bg-amber-800', 'bg-emerald-900/40 border-emerald-700 hover:bg-emerald-800', 'bg-purple-900/40 border-purple-700 hover:bg-purple-800'];
+            
+            grid.innerHTML = q.options.map((opt, idx) => `
+                <button onclick="app.cadet.submitAnswer(${idx})" class="option-btn p-5 rounded-xl border ${colors[idx % colors.length]} text-white font-bold text-left transition flex items-center space-x-4 shadow-lg">
+                    <span class="w-8 h-8 rounded bg-military-950 border border-military-700 flex items-center justify-center font-mono text-military-accent">${['A','B','C','D'][idx]}</span>
+                    <span>${opt}</span>
+                </button>
+            `).join('');
+
+            // Start 20s countdown timer
+            startTimer(20, async () => {
+                if (isHost) {
+                    const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'quiz_rooms_' + currentRoomId);
+                    const snap = await getDoc(roomRef);
+                    if (snap.exists()) host.showLeaderboard(snap.data());
+                }
+            });
+        }
+
+        function startTimer(seconds, onExpire) {
+            if (timerInterval) clearInterval(timerInterval);
+            let timeLeft = seconds;
+            document.getElementById('timer-display').innerText = timeLeft;
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const timerEl = document.getElementById('timer-display');
+                if (timerEl) timerEl.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    if (onExpire) onExpire();
+                }
+            }, 1000);
+        }
+
+        function renderLeaderboardView(data) {
+            if (timerInterval) clearInterval(timerInterval);
+            showView('view-leaderboard');
+
+            const qIdx = data.currentQuestionIndex;
+            const q = QUIZ_QUESTIONS[qIdx];
+            document.getElementById('correct-answer-text').innerText = q.options[q.correct];
+
+            const cadets = data.cadets || {};
+            const sortedCadets = Object.keys(cadets).map(k => ({ id: k, ...cadets[k] })).sort((a,b) => b.score - a.score);
+
+            const lbList = document.getElementById('leaderboard-list');
+            lbList.innerHTML = sortedCadets.map((c, i) => `
+                <div class="flex justify-between items-center p-3 rounded-xl bg-military-950 border border-military-800 font-mono text-sm">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-military-accent font-bold">#${i+1}</span>
+                        <span class="text-white">${c.nickname}</span>
+                    </div>
+                    <span class="text-emerald-400 font-bold">${c.score} PTS</span>
+                </div>
+            `).join('');
+
+            const nextBtnContainer = document.getElementById('host-next-btn-container');
+            const cadetWaitMsg = document.getElementById('cadet-wait-next-msg');
+            if (isHost) {
+                nextBtnContainer.classList.remove('hidden');
+                cadetWaitMsg.classList.add('hidden');
+            } else {
+                nextBtnContainer.classList.add('hidden');
+                cadetWaitMsg.classList.remove('hidden');
+            }
+        }
+
+        function alertBox(msg) {
+            alert(msg); // fallback modal simulation
+        }
+
+        // Global app object binding
+        window.app = {
+            host,
+            cadet,
+            ui: {
+                showJoinScreen: () => showView('view-join'),
+                showHome: () => showView('view-home')
+            }
+        };
+
+        window.onload = () => {
+            initFirebase();
+        };
+    </script>
+</body>
+</html>
